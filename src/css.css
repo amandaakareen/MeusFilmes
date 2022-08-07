@@ -1,0 +1,84 @@
+body {
+  background-image: url("https://thumbs.dreamstime.com/b/teste-padr%C3%A3o-sem-emenda-tirado-m%C3%A3o-do-cinema-com-rotula%C3%A7%C3%A3o-na-obscuridade-filme-que-faz-cole%C3%A7%C3%A3o-dos-s%C3%ADmbolos-do-filme-81086613.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.divTotal {
+  margin: 0 auto;
+  background-color: #ffff;
+  margin-top: 70px;
+  width: 1000px;
+  height: 500px;
+  border-radius: 3%;
+}
+header {
+  display: flex;
+  justify-content: center;
+  font-family: "Barlow Condensed", sans-serif;
+}
+.filme {
+  list-style-type: none;
+  font-family: "Inter", sans-serif;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 3fr 3fr 2fr 2fr 1fr;
+  justify-content: space-between;
+  align-content: space-between;
+  grid-gap: 10px;
+  margin-bottom: 5px;
+}
+.editar a {
+  color: #000;
+  text-decoration: none;
+}
+.editar {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.botao {
+  display: flex;
+  justify-content: center;
+}
+.botao a {
+  font-family: "Inter", sans-serif;
+  border-radius: 25px;
+  padding: 8px;
+  text-decoration: none;
+  margin-top: 50px;
+  color: #000;
+}
+.botao a:hover {
+  background-color: rgb(94, 100, 95);
+}
+
+.botao button {
+  font-family: "Inter", sans-serif;
+  border-radius: 25px;
+  border: 1px solid rgba(0, 0, 0, 0.199);
+  padding: 10px;
+  width: 100px;
+  margin-top: 20px;
+  background: rgba(0, 0, 0, 0.158);
+  font-size: 15px;
+}
+.botao button:hover {
+  background-color: rgb(94, 100, 95);
+}
+.botao i {
+  margin-left: 10px;
+}
+.icon {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  width: 200px;
+}
+.input {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  width: 500px;
+  margin: 0 auto;
+  margin-top: 20px;
+}
