@@ -1,11 +1,12 @@
 import { useState } from "react";
 import axios from "axios";
 import { useEffect } from "react";
-import css from "./css.css";
+import css from "../css.css";
 
-function App() {
+export function ListaFilmes() {
   const [listasFilmes, setListasFilmes] = useState([]);
-  const url = "http://localhost:3000/Filmes";
+
+  const url = "http://localhost:8080/filmes";
 
   useEffect(() => {
     getFilmes();
@@ -17,11 +18,13 @@ function App() {
       .then((Response) => setListasFilmes(Response.data))
       .catch((error) => console.error(error));
   }
+
   function deleteFilme(id) {
     axios.delete(`${url}/${id}`).then(() => getFilmes());
   }
   return (
     <div className="divTotal">
+      <div className="usuario">Usuário: Amanda Karen</div>
       <header>
         <h1 className="icon">
           Meus filmes <i class="fa-solid fa-play"></i>
@@ -33,13 +36,12 @@ function App() {
           <strong> Lançamento</strong>
           <strong> Gênero</strong>
           <strong>Diretor</strong>
-          <strong></strong>
         </li>
         {listasFilmes.map((filme) => {
           return (
             <li className="filme">
-              <span> {filme.nome}</span> <span> {filme.lançamento}</span>
-              <span> {filme.genero} </span> <span>{filme.diretor} </span>
+              <span> {filme.nome}</span> <span> {filme.lancamento}</span>
+              <span> {filme.genero.nome} </span> <span>{filme.diretor} </span>
               <span className="editar">
                 <a href={`/editar/${filme.id}`}>
                   <i className="fas fa-pen"></i>
@@ -55,7 +57,9 @@ function App() {
       <div className="botao">
         <a href="/adicionar">Adicionar Filme</a>
       </div>
+      <div className="botao">
+        <button>sair</button>
+      </div>
     </div>
   );
 }
-export default App;

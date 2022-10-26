@@ -1,26 +1,37 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
-import css from "./css.css";
+import css from "../css.css";
+
 export function Adicionar() {
   const [nome, setNome] = useState("");
-  const [datadeLançamento, setDatadeLançamento] = useState("");
-  const [genero, setgenero] = useState("");
+  const [lancamento, setLancamento] = useState("");
+  const [genero, setGenero] = useState(1);
   const [diretor, setDiretor] = useState("");
+  const [listasGeneros, setListasGeneros] = useState([]);
 
-  const url = "http://localhost:3000/Filmes";
+  const url = "http://localhost:8080/filmes";
+  const urlGeneros = "http://localhost:8080/genero";
+
+  useEffect(() => {
+    getGenero();
+  }, []);
+
+  function getGenero() {
+    axios.get(urlGeneros).then((response) => setListasGeneros(response.data));
+  }
 
   function addFilme() {
     const filme = {
       nome: nome,
-      lançamento: datadeLançamento,
-      genero: genero,
+      lancamento: lancamento,
+      generoId: genero,
       diretor: diretor,
     };
 
     axios.post(url, filme).then(() => {
       setNome("");
-      setDatadeLançamento("");
-      setgenero("");
+      setLancamento("");
+      setGenero(1);
       setDiretor("");
     });
   }
@@ -30,7 +41,7 @@ export function Adicionar() {
       alert("Preencha o campo!");
       return;
     }
-    if (datadeLançamento === "") {
+    if (lancamento === "") {
       alert("Preencha o campo!");
       return;
     }
@@ -53,27 +64,19 @@ export function Adicionar() {
       </header>
 
       <div className="input">
-        <label htmlFor="nomedofilme">Nome do Filme</label>
-        <input
-          id="nomedofilme"
-          type="text"
-          value={nome}
-          onChange={(e) => setNome(e.target.value)}
-        />
         <label htmlFor="datadelançamento">Data de lançamento</label>
         <input
           id="datadelançamento"
           type="text"
-          value={datadeLançamento}
-          onChange={(e) => setDatadeLançamento(e.target.value)}
+          value={lancamento}
+          onChange={(e) => setLancamento(e.target.value)}
         />
         <label htmlFor="genero">Gênero</label>
-        <input
-          id="genero"
-          type="text"
-          value={genero}
-          onChange={(e) => setgenero(e.target.value)}
-        />
+        <select onChange={(e) => setGenero(e.value)}>
+          {listasGeneros.map((genero) => {
+            return <option value={genero.id + ""}>{genero.nome}</option>;
+          })}
+        </select>
         <label htmlFor="diretor">Diretor</label>
         <input
           id="diretor"
@@ -93,7 +96,7 @@ export function Adicionar() {
         </button>
       </div>
       <div className="botao">
-        <a className="voltarParaLista" href="/">
+        <a className="voltarParaLista" href="/lista">
           Voltar para lista
         </a>
       </div>

@@ -2,35 +2,42 @@ import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { useState } from "react";
-import css from "./css.css";
+import css from "../css.css";
 
 export function Editar() {
   const { id } = useParams();
   const [nome, setNome] = useState("");
-  const [datadeLançamento, setDatadeLançamento] = useState("");
-  const [genero, setgenero] = useState("");
+  const [lancamento, setLancamento] = useState("");
+  const [genero, setGenero] = useState(0);
   const [diretor, setDiretor] = useState("");
+  const [listasGeneros, setListasGeneros] = useState([]);
+
   let navigate = useNavigate();
-  const url = "http://localhost:3000/Filmes";
+  const url = "http://localhost:8080/filmes";
+  const urlGeneros = "http://localhost:8080/genero";
 
   useEffect(() => {
     getId();
+    getGenero();
   }, []);
 
   function getId() {
-    axios.get(`${url}/${id}`).then((Response) => {
-      setNome(Response.data.nome);
-      setDatadeLançamento(Response.data.lançamento);
-      setgenero(Response.data.genero);
-      setDiretor(Response.data.diretor);
+    axios.get(`${url}/${id}`).then((response) => {
+      setNome(response.data.nome);
+      setDatadeLançamento(response.data.lancamento);
+      setGenero(response.data.genero);
+      setDiretor(response.data.diretor);
     });
+  }
+  function getGenero() {
+    axios.get(urlGeneros).then((response) => setListasGeneros(response.data));
   }
 
   function editarFilme() {
     const filme = {
       nome: nome,
-      lançamento: datadeLançamento,
-      genero: genero,
+      lançamento: lancamento,
+      generoId: genero,
       diretor: diretor,
     };
     axios.put(`${url}/${id}`, filme);
@@ -56,16 +63,15 @@ export function Editar() {
         <input
           id="datadelançamento"
           type="text"
-          value={datadeLançamento}
-          onChange={(e) => setDatadeLançamento(e.target.value)}
+          value={lancamento}
+          onChange={(e) => setLancamento(e.target.value)}
         />
         <label htmlFor="genero">Gênero</label>
-        <input
-          id="genero"
-          type="text"
-          value={genero}
-          onChange={(e) => setgenero(e.target.value)}
-        />
+        <select onChange={(e) => setGenero(e.target.value)}>
+          {listasGeneros.map((genero) => {
+            return <option value={genero.id + ""}>{genero.nome}</option>;
+          })}
+        </select>
         <label htmlFor="diretor">Diretor</label>
         <input
           id="diretor"
@@ -78,7 +84,7 @@ export function Editar() {
         <button onClick={() => editarFilme()}>Editar</button>
       </div>
       <div className="botao">
-        <a href="/">Voltar para lista</a>
+        <a href="/lista">Voltar para lista</a>
       </div>
     </div>
   );
